@@ -3,7 +3,7 @@ module.exports = {
   devtool: "source-map",
   entry: "./index.tsx",
   resolve: {
-    extensions: [".ts", ".tsx"],
+    extensions: [".ts", ".tsx", ".js"],
   },
 
   module: {

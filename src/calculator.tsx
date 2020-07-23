@@ -1,11 +1,13 @@
 import * as React from "react";
 import { calculate } from './calculateFunc';
+import axios from 'axios';
 
 const Calculator = () => {
     const [operations, setOperations] = React.useState([]);
     const [result, setResult] = React.useState(null);
 
     function updateOps(type: String) {
+      axios.get('/test').then(res => console.log(res));
         if (type === "CA") {
             return setOperations([]);
         } else if (type === "D1") {
