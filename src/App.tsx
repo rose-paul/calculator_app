@@ -6,6 +6,7 @@ const App = () => (
     <div className="App">
         <Header /> 
         <Calculator />
+        {/* will be index */}
     </div>
 )
 

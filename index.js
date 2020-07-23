@@ -10,8 +10,4 @@ app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "index.html"));
 });
 
-app.get("/test", (req, res) => {
-  res.send("connected")
-})
-
 app.listen(port);
