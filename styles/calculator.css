@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 15%;
+    height: 100vh;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 50vh;
+    width: 310px;
+}
+
+.wrapper > div:first-child {
+    display: flex;
+    flex-direction: row;
+}
+
+.wrapper > div span:first-child {
+    border: 1px solid black;
+    height: 30px;
+    width: 250px;
+    margin-right: 10px;
+}
+/* 
+.wrapper > div span:last-child {
+    margin-left: 20px;
+} */
+.calculator {
+    display: flex;
+    flex-direction: row;
+}
+
+.calculator > div {
+    display: flex;
+    flex-direction: column;
+    width: 50px;
+    height: 30px;
+}
+
+.calculator div:last-of-type > button {
+    padding: 3.2px 0px;
+}
