@@ -13,6 +13,7 @@ const Calculator = () => {
             newOps.pop();
             return setOperations(newOps);
         } else if (type === "=") {
+          // MOVE THIS TO BACKEND. Post operations arr, then backend calculates, stores then socket updates result.
             const currResult = calculate(operations);
             return setResult(currResult);
         } else {
