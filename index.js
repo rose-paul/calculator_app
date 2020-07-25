@@ -3,8 +3,8 @@ const path = require("path");
 const port = process.env.PORT || 8080;
 const app = express();
 const { Client } = require("pg");
+const { calculate } = require("./calculator.js");
 require("dotenv").config();
-
 app.use(express.static(__dirname));
 
 // DB CONNECTION
@@ -20,7 +20,8 @@ app.get("/", (req, res) => {
 });
 /* POST OPERATION TO DB */
 app.post("/post", (req, res) => {
-  client.query(`INSERT INTO entries (entry) VALUES (${req.operation})`)
+  const result = calculate(req.operations);
+  client.query(`INSERT INTO entries (entry) VALUES (result})`)
   .then( result => console.log('successful'))
   .catch( err => console.log(err) )
 })

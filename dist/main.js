@@ -2137,99 +2137,6 @@ exports.default = App;
 
 /***/ }),
 
-/***/ "./src/calculateFunc.ts":
-/*!******************************!*\
-  !*** ./src/calculateFunc.ts ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.calculate = void 0;
-const validOperations = {
-    "+": add,
-    "-": subtract,
-    "*": multiply,
-    "/": divide,
-};
-function add(a, b) {
-    return a + b;
-}
-function multiply(a, b) {
-    return a * b;
-}
-function divide(a, b) {
-    return a / b;
-}
-function subtract(a, b) {
-    return a - b;
-}
-function calculate(operations) {
-    // frontend compresses numbers together ([1, 0] becomes [10])
-    operations = compress(operations);
-    // assuming start with a number, otherwise invalid input
-    let res = Number(operations[0]);
-    for (let i = 1; i < operations.length - 1; i++) {
-        let currVal = operations[i];
-        let nextVal = operations[i + 1];
-        if (nextVal === "(") {
-            // find where the closing braket is
-            let j = findClosing(operations, i);
-            let subCalculation = operations.slice(i + 2, j);
-            // recursively call on that sub arr
-            nextVal = calculate(subCalculation);
-            // jump foward, so we skip that subarr of operations
-            i = j;
-        }
-        if (currVal in validOperations) {
-            // key into validOperations to get the currect function, passing in current value and next number
-            res = validOperations[currVal](res, Number(nextVal));
-        }
-    }
-    return res;
-}
-exports.calculate = calculate;
-// helper to find closing bracket
-function findClosing(arr, i) {
-    let j = i + 2;
-    let openCount = 1;
-    while (openCount > 0) {
-        if (arr[j] === "(") {
-            openCount++;
-        }
-        else if (arr[j] === ")") {
-            openCount--;
-        }
-        j++;
-    }
-    return j - 1;
-}
-// helper to compress numbers
-function compress(arr) {
-    let newArr = [];
-    let i = 0;
-    while (i < arr.length) {
-        if (!isNaN(Number(arr[i]))) {
-            let j = i;
-            while (!isNaN(Number(arr[j]))) {
-                j++;
-            }
-            newArr.push(arr.slice(i, j).join(""));
-            i = j;
-        }
-        else {
-            newArr.push(arr[i]);
-            i++;
-        }
-    }
-    return newArr;
-}
-
-
-/***/ }),
-
 /***/ "./src/calculator.tsx":
 /*!****************************!*\
   !*** ./src/calculator.tsx ***!
@@ -2241,7 +2148,7 @@ function compress(arr) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
-const calculateFunc_1 = __webpack_require__(/*! ./calculateFunc */ "./src/calculateFunc.ts");
+const axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 const Calculator = () => {
     const [operations, setOperations] = React.useState([]);
     const [result, setResult] = React.useState(null);
@@ -2256,8 +2163,10 @@ const Calculator = () => {
         }
         else if (type === "=") {
             // MOVE THIS TO BACKEND. Post operations arr, then backend calculates, stores then socket updates result.
-            const currResult = calculateFunc_1.calculate(operations);
-            return setResult(currResult);
+            // const currResult = calculate(operations);
+            axios_1.default.post("/post", { operations })
+                .then(res => setResult(res));
+            // return setResult(currResult);
         }
         else {
             return setOperations([...operations, type]);

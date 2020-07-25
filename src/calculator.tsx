@@ -1,6 +1,6 @@
 import * as React from "react";
 import { calculate } from './calculateFunc';
-
+import axios from 'axios';
 const Calculator = () => {
     const [operations, setOperations] = React.useState([]);
     const [result, setResult] = React.useState(null);
@@ -14,8 +14,10 @@ const Calculator = () => {
             return setOperations(newOps);
         } else if (type === "=") {
           // MOVE THIS TO BACKEND. Post operations arr, then backend calculates, stores then socket updates result.
-            const currResult = calculate(operations);
-            return setResult(currResult);
+            // const currResult = calculate(operations);
+            axios.post("/post", {operations})
+            .then( res => setResult(res))
+            // return setResult(currResult);
         } else {
             return setOperations([...operations, type])
         }
