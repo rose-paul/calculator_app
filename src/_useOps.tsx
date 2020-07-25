@@ -10,7 +10,7 @@ const useOps = () : any => {
         socketRef = socketIOclient.connect(
           "http://localhost:8080/"
         );
-        socketRef.current.on("operation", (operation: string) => {
+        socketRef.on("operation", (operation: string) => {
         const newOps = [operation, ...recentTenOps];
         newOps.pop();
         setRecent(newOps);

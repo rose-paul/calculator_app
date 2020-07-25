@@ -47,8 +47,8 @@ app.get("/recent", (req, res) => {
 // WEB SOCKET
 io.on("connection", (socket) => {
   console.log("conection established!");
-  socket.on("message", function(data) {
-    console.log(`recieved your message:`, data);
+  socket.on("operation", function(data) {
+    io.emit("operation", data)
   });
   socket.on("disconnect", () => {
     console.log('user gone')

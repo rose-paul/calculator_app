@@ -5,8 +5,17 @@ const ENDPOINT = "http://localhost:8080/";
 const OperationsIndex = (props: {recentTenOps: string[]}) => {
     // do an axios call to get the operations and render
     const [display, setDisplay] = React.useState([]);
-    console.log(props.recentTenOps)
-    // React.useEffect(() => {
+ 
+
+    return (<div>
+        results here
+    </div>)
+}
+
+export default OperationsIndex;
+
+
+   // React.useEffect(() => {
     //     // axios.get("/recent", {}).then(res => console.log(res)).catch( err => console.log(err))
     //     const socket = socketIOclient.connect(ENDPOINT);
     //     socket.on("connect", function() {
@@ -16,10 +25,3 @@ const OperationsIndex = (props: {recentTenOps: string[]}) => {
     //         })
     //     })
     // }, [])
-
-    return (<div>
-        results here
-    </div>)
-}
-
-export default OperationsIndex;
