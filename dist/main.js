@@ -12485,11 +12485,51 @@ const React = __webpack_require__(/*! react */ "react");
 const header_1 = __webpack_require__(/*! ./header */ "./src/header.tsx");
 const calculator_1 = __webpack_require__(/*! ./calculator */ "./src/calculator.tsx");
 const operationsIndex_1 = __webpack_require__(/*! ./operationsIndex */ "./src/operationsIndex.tsx");
-const App = () => (React.createElement("div", { className: "App" },
-    React.createElement(header_1.default, null),
-    React.createElement(calculator_1.default, null),
-    React.createElement(operationsIndex_1.default, null)));
+const _useOps_1 = __webpack_require__(/*! ./_useOps */ "./src/_useOps.tsx");
+const App = () => {
+    const { recentTenOps, sendOp } = _useOps_1.default();
+    return (React.createElement("div", { className: "App" },
+        React.createElement(header_1.default, null),
+        React.createElement(calculator_1.default, { sendOp: sendOp }),
+        React.createElement(operationsIndex_1.default, { recentTenOps: recentTenOps })));
+};
 exports.default = App;
+
+
+/***/ }),
+
+/***/ "./src/_useOps.tsx":
+/*!*************************!*\
+  !*** ./src/_useOps.tsx ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "react");
+const socketIOclient = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+const useOps = () => {
+    const [recentTenOps, setRecent] = React.useState([]);
+    let socketRef;
+    React.useEffect(() => {
+        socketRef = socketIOclient.connect("http://localhost:8080/");
+        socketRef.current.on("operation", (operation) => {
+            const newOps = [operation, ...recentTenOps];
+            newOps.pop();
+            setRecent(newOps);
+        });
+        return () => {
+            socketRef.disconnect();
+        };
+    }, []);
+    const sendOp = (operation) => {
+        socketRef.emit("operation", { operation });
+    };
+    return { recentTenOps, sendOp };
+};
+exports.default = useOps;
 
 
 /***/ }),
@@ -12506,22 +12546,26 @@ exports.default = App;
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
 const axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-const Calculator = () => {
+const Calculator = (props) => {
     const [operations, setOperations] = React.useState([]);
     const [result, setResult] = React.useState(null);
     function updateOps(type) {
-        if (type === "CA") { // CLEAR ALL
+        if (type === "CA") {
+            // CLEAR ALL
             return setOperations([]);
         }
-        else if (type === "D1") { // BACKSPACE/DELETE ONE
+        else if (type === "D1") {
+            // BACKSPACE/DELETE ONE
             let newOps = [...operations];
             newOps.pop();
             return setOperations(newOps);
         }
-        else if (type === "=") { // REQ TO BACKEND FOR CALCULATION
-            axios_1.default.post(`/operation`, { operations: operations })
-                .then(res => setResult(res))
-                .catch(err => console.log(err));
+        else if (type === "=") {
+            // REQ TO BACKEND FOR CALCULATION
+            axios_1.default
+                .post(`/operation`, { operations: operations })
+                .then((res) => setResult(res))
+                .catch((err) => console.log(err));
         }
         else {
             return setOperations([...operations, type]); // ADDING TO CALCULATION STACK
@@ -12593,20 +12637,20 @@ exports.default = Header;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
-const socketIOclient = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
 const ENDPOINT = "http://localhost:8080/";
-const OperationsIndex = () => {
+const OperationsIndex = (props) => {
     // do an axios call to get the operations and render
     const [display, setDisplay] = React.useState([]);
-    React.useEffect(() => {
-        // axios.get("/recent", {}).then(res => console.log(res)).catch( err => console.log(err))
-        const socket = socketIOclient.connect(ENDPOINT);
-        socket.on("connect", function () {
-            socket.send("hi");
-            socket.on("operation", function (op) {
-            });
-        });
-    }, []);
+    console.log(props.recentTenOps);
+    // React.useEffect(() => {
+    //     // axios.get("/recent", {}).then(res => console.log(res)).catch( err => console.log(err))
+    //     const socket = socketIOclient.connect(ENDPOINT);
+    //     socket.on("connect", function() {
+    //         socket.send("hi");
+    //         socket.on("operation", function(op: string[]) {
+    //         })
+    //     })
+    // }, [])
     return (React.createElement("div", null, "results here"));
 };
 exports.default = OperationsIndex;

@@ -51,6 +51,7 @@ io.on("connection", (socket) => {
     console.log(`recieved your message:`, data);
   });
   socket.on("disconnect", () => {
+    console.log('user gone')
   })
 });
 
