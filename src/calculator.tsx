@@ -1,26 +1,22 @@
 import * as React from "react";
-import { calculate } from './calculateFunc';
 import axios from 'axios';
 const Calculator = () => {
     const [operations, setOperations] = React.useState([]);
     const [result, setResult] = React.useState(null);
 
     function updateOps(type: String) {
-        if (type === "CA") {
+        if (type === "CA") { // CLEAR ALL
             return setOperations([]);
-        } else if (type === "D1") {
+        } else if (type === "D1") { // BACKSPACE/DELETE ONE
             let newOps = [...operations];
             newOps.pop();
             return setOperations(newOps);
-        } else if (type === "=") {
-          // MOVE THIS TO BACKEND. Post operations arr, then backend calculates, stores then socket updates result.
-            // const currResult = calculate(operations);
+        } else if (type === "=") { // REQ TO BACKEND FOR CALCULATION
             axios.post(`/operation`, { operations: operations})
             .then( res => setResult(res))
             .catch( err => console.log(err))
-            // return setResult(currResult);
         } else {
-            return setOperations([...operations, type])
+            return setOperations([...operations, type]) // ADDING TO CALCULATION STACK
         }
     }
 
@@ -62,7 +58,6 @@ const Calculator = () => {
             <button onClick={() => updateOps("=")}>=</button>
           </div>
         </div>
-        {/* calculation index */}
       </div>
     );
 }

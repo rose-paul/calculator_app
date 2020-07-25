@@ -2,15 +2,18 @@ const express = require("express");
 const path = require("path");
 const port = process.env.PORT || 8080;
 const app = express();
-const { Client } = require("pg");
 const { calculate } = require("./calculator.js");
 require("dotenv").config();
+
 app.use(express.static(__dirname));
+
+// TO PARSE REQ BODY FROM FRONTEND
 var bodyParser = require("body-parser");
-app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // DB CONNECTION
+const { Client } = require("pg");
 const client = new Client({
   connectionString: process.env.connectionString
 })
@@ -21,7 +24,7 @@ client.connect().then(() => "connected successfuly").catch(e => console.log(e)).
 app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "index.html"));
 });
-/* POST OPERATION TO DB */
+/* post operation to db */
 app.post("/operation", (req, res) => {
   const result = calculate(req.body.operations);
   const text = `INSERT INTO entries (entry) VALUES ($1)`;
@@ -30,7 +33,7 @@ app.post("/operation", (req, res) => {
   .then( result => console.log('successful'))
   .catch( err => console.log(err.stack) )
 })
-/* FETCH RECENT 10 FROM DB ON LOAD */
+/* fetch recent 10 from db on load */
 app.get("/recent", (req, res) => {
   client.query('SELECT * FROM entries ORDER BY created_at DESC LIMIT 10')
   .then(result => {
