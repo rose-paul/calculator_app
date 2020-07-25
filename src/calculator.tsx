@@ -15,8 +15,9 @@ const Calculator = () => {
         } else if (type === "=") {
           // MOVE THIS TO BACKEND. Post operations arr, then backend calculates, stores then socket updates result.
             // const currResult = calculate(operations);
-            axios.post("/post", {operations})
+            axios.post(`/operation`, { operations: operations})
             .then( res => setResult(res))
+            .catch( err => console.log(err))
             // return setResult(currResult);
         } else {
             return setOperations([...operations, type])

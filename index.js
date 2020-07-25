@@ -6,6 +6,9 @@ const { Client } = require("pg");
 const { calculate } = require("./calculator.js");
 require("dotenv").config();
 app.use(express.static(__dirname));
+var bodyParser = require("body-parser");
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // DB CONNECTION
 const client = new Client({
@@ -19,17 +22,17 @@ app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "index.html"));
 });
 /* POST OPERATION TO DB */
-app.post("/post", (req, res) => {
-  const result = calculate(req.operations);
-  client.query(`INSERT INTO entries (entry) VALUES (result})`)
-  .then( result => console.log('successful'))
-  .catch( err => console.log(err) )
+app.post("/operation", (req, res) => {
+  const result = calculate(req.body.operations);
+  console.log(result)
+  // client.query(`INSERT INTO entries (entry) VALUES (result})`)
+  // .then( result => console.log('successful'))
+  // .catch( err => console.log(err) )
 })
 /* FETCH RECENT 10 FROM DB ON LOAD */
 app.get("/recent", (req, res) => {
   client.query('SELECT * FROM entries ORDER BY created_at DESC LIMIT 10')
   .then(result => {
-    console.log(result.rows)
       res.send(result.rows);
     })
     .catch(err => res.status(404).json(err));
