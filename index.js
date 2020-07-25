@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const port = process.env.PORT || 8080;
 const app = express();
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
 const { calculate } = require("./calculator.js");
 require("dotenv").config();
 
@@ -27,9 +29,9 @@ app.get("/", (req, res) => {
 /* post operation to db */
 app.post("/operation", (req, res) => {
   const result = calculate(req.body.operations);
+  const newValue = [...req.body.operations, "=", result].join(" ");
   const text = `INSERT INTO entries (entry) VALUES ($1)`;
-  const values = [result];
-  client.query(text, values)
+  client.query(text, newValue)
   .then( result => console.log('successful'))
   .catch( err => console.log(err.stack) )
 })
@@ -43,6 +45,18 @@ app.get("/recent", (req, res) => {
 })
 
 // WEB SOCKET
+io.on("connection", (socket) => {
+  console.log("conection established!");
+  socket.on("message", function(data) {
+    console.log(`recieved your message:`, data);
+  });
+  socket.on("disconnect", () => {
+  })
+});
+
+http.listen(port, () => {
+  console.log("listening on *:8080");
+});
 
 // PORT
-app.listen(port, () => console.log(`listening on port ${port}`));
+// app.listen(port, () => console.log(`listening on port ${port}`));
