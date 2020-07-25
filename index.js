@@ -24,10 +24,11 @@ app.get("/", (req, res) => {
 /* POST OPERATION TO DB */
 app.post("/operation", (req, res) => {
   const result = calculate(req.body.operations);
-  console.log(result)
-  // client.query(`INSERT INTO entries (entry) VALUES (result})`)
-  // .then( result => console.log('successful'))
-  // .catch( err => console.log(err) )
+  const text = `INSERT INTO entries (entry) VALUES ($1)`;
+  const values = [result];
+  client.query(text, values)
+  .then( result => console.log('successful'))
+  .catch( err => console.log(err.stack) )
 })
 /* FETCH RECENT 10 FROM DB ON LOAD */
 app.get("/recent", (req, res) => {
