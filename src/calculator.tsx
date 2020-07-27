@@ -30,7 +30,7 @@ const Calculator = (props: { sendOp: Function }) => {
           <button onClick={() => updateOps("0")}>0</button>
           <button onClick={() => updateOps("1")}>1</button>
           <button onClick={() => updateOps("2")}>2</button>
-          <button onClick={() => updateOps("3")}>3</button>
+          <button className="bottom-left" onClick={() => updateOps("3")}>3</button>
         </div>
         <div>
           <button onClick={() => updateOps("4")}>4</button>

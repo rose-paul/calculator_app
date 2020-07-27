@@ -12666,7 +12666,7 @@ const Calculator = (props) => {
                 React.createElement("button", { onClick: () => updateOps("0") }, "0"),
                 React.createElement("button", { onClick: () => updateOps("1") }, "1"),
                 React.createElement("button", { onClick: () => updateOps("2") }, "2"),
-                React.createElement("button", { onClick: () => updateOps("3") }, "3")),
+                React.createElement("button", { className: "bottom-left", onClick: () => updateOps("3") }, "3")),
             React.createElement("div", null,
                 React.createElement("button", { onClick: () => updateOps("4") }, "4"),
                 React.createElement("button", { onClick: () => updateOps("5") }, "5"),
