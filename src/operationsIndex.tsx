@@ -9,15 +9,3 @@ const OperationsIndex = (props: {recentTenOps: string[]}) => {
 }
 
 export default OperationsIndex;
-
-
-   // React.useEffect(() => {
-    //     // axios.get("/recent", {}).then(res => console.log(res)).catch( err => console.log(err))
-    //     const socket = socketIOclient.connect(ENDPOINT);
-    //     socket.on("connect", function() {
-    //         socket.send("hi");
-    //         socket.on("operation", function(op: string[]) {
-
-    //         })
-    //     })
-    // }, [])

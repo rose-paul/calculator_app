@@ -12581,6 +12581,7 @@ const useOps = () => {
     const [recentTenOps, setRecent] = React.useState([]);
     let socketRef;
     React.useEffect(() => {
+        axios_1.default.get('/recent').then(result => setRecent(result.data)).catch(err => console.log(err));
         socketRef = socketIOclient.connect("http://localhost:8080/");
         socketRef.on("operation", (operation) => {
             console.log(`Incoming processed: ${operation}`);
@@ -12764,15 +12765,6 @@ const OperationsIndex = (props) => {
     return (React.createElement("div", null, props.recentTenOps.map(op => React.createElement("p", null, op))));
 };
 exports.default = OperationsIndex;
-// React.useEffect(() => {
-//     // axios.get("/recent", {}).then(res => console.log(res)).catch( err => console.log(err))
-//     const socket = socketIOclient.connect(ENDPOINT);
-//     socket.on("connect", function() {
-//         socket.send("hi");
-//         socket.on("operation", function(op: string[]) {
-//         })
-//     })
-// }, [])
 
 
 /***/ }),
