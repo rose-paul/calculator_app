@@ -12724,7 +12724,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(__webpack_require__(/*! react */ "react"));
 const Header = () => (React.createElement("header", null,
     React.createElement("h2", null, "Welcome to Calculate Stuff"),
-    React.createElement("p", null, "This is the premier site for calculating your stuff and seeing the most recent 10 calculations.")));
+    React.createElement("p", null, "This is the premier site for calculating your stuff and seeing the most recent 10 calculations done by other people calculating stuff.")));
 exports.default = Header;
 
 
