@@ -8,6 +8,14 @@ const { calculate } = require("./calculator.js");
 require("dotenv").config();
 
 app.use(express.static(__dirname));
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:5500/"); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 // TO PARSE REQ BODY FROM FRONTEND
 var bodyParser = require("body-parser");
@@ -29,10 +37,13 @@ app.get("/", (req, res) => {
 /* post operation to db */
 app.post("/operation", (req, res) => {
   const result = calculate(req.body.operations);
-  const newValue = [...req.body.operations, "=", result].join(" ");
+  const newValue = [req.body.operations.join(" ") + " = " + result];
   const text = `INSERT INTO entries (entry) VALUES ($1)`;
   client.query(text, newValue)
-  .then( result => console.log('successful'))
+  .then( result => {
+    res.send(newValue)
+    io.emit("operation", newValue)
+  })
   .catch( err => console.log(err.stack) )
 })
 /* fetch recent 10 from db on load */
@@ -47,9 +58,6 @@ app.get("/recent", (req, res) => {
 // WEB SOCKET
 io.on("connection", (socket) => {
   console.log("conection established!");
-  socket.on("operation", function(data) {
-    io.emit("operation", data)
-  });
   socket.on("disconnect", () => {
     console.log('user gone')
   })

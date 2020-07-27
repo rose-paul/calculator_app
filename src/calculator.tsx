@@ -1,10 +1,7 @@
 import * as React from "react";
-import axios from 'axios';
-import * as socketIOclient from "socket.io-client";
 
 const Calculator = (props: { sendOp: Function }) => {
   const [operations, setOperations] = React.useState([]);
-  const [result, setResult] = React.useState(null);
 
   function updateOps(type: String) {
     if (type === "CA") {
@@ -17,10 +14,7 @@ const Calculator = (props: { sendOp: Function }) => {
       return setOperations(newOps);
     } else if (type === "=") {
       // REQ TO BACKEND FOR CALCULATION
-      axios
-        .post(`/operation`, { operations: operations })
-        .then((res) => setResult(res))
-        .catch((err) => console.log(err));
+      props.sendOp(operations);
     } else {
       return setOperations([...operations, type]); // ADDING TO CALCULATION STACK
     }
@@ -30,8 +24,6 @@ const Calculator = (props: { sendOp: Function }) => {
     <div className="wrapper">
       <div>
         <span>{operations.map((op) => op)}</span>
-        <span> = </span>
-        <span>{result}</span>
       </div>
       <div className="calculator">
         <div>

@@ -1,14 +1,10 @@
 import * as React from "react";
-import axios from "axios";
-import * as socketIOclient from "socket.io-client";
-const ENDPOINT = "http://localhost:8080/";
 const OperationsIndex = (props: {recentTenOps: string[]}) => {
     // do an axios call to get the operations and render
-    const [display, setDisplay] = React.useState([]);
- 
-
     return (<div>
-        results here
+        {
+            props.recentTenOps.map( op => <p>{op}</p>)
+        }
     </div>)
 }
 

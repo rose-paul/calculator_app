@@ -9,6 +9,7 @@
     "webpack": "webpack --mode=development --watch",
     "start": "node index.js"
   },
+  "proxy": "http://localhost:8080",
   "author": "",
   "license": "ISC",
   "devDependencies": {

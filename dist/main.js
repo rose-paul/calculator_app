@@ -95,10 +95,32 @@
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(/*! react */ "react");
-const ReactDOM = __webpack_require__(/*! react-dom */ "react-dom");
-const App_1 = __webpack_require__(/*! ./src/App */ "./src/App.tsx");
+const React = __importStar(__webpack_require__(/*! react */ "react"));
+const ReactDOM = __importStar(__webpack_require__(/*! react-dom */ "react-dom"));
+const App_1 = __importDefault(__webpack_require__(/*! ./src/App */ "./src/App.tsx"));
 document.addEventListener('DOMContentLoaded', () => {
     ReactDOM.render(React.createElement(App_1.default, null), document.getElementById("root"));
 });
@@ -12480,12 +12502,34 @@ module.exports = yeast;
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(/*! react */ "react");
-const header_1 = __webpack_require__(/*! ./header */ "./src/header.tsx");
-const calculator_1 = __webpack_require__(/*! ./calculator */ "./src/calculator.tsx");
-const operationsIndex_1 = __webpack_require__(/*! ./operationsIndex */ "./src/operationsIndex.tsx");
-const _useOps_1 = __webpack_require__(/*! ./_useOps */ "./src/_useOps.tsx");
+const React = __importStar(__webpack_require__(/*! react */ "react"));
+const header_1 = __importDefault(__webpack_require__(/*! ./header */ "./src/header.tsx"));
+const calculator_1 = __importDefault(__webpack_require__(/*! ./calculator */ "./src/calculator.tsx"));
+const operationsIndex_1 = __importDefault(__webpack_require__(/*! ./operationsIndex */ "./src/operationsIndex.tsx"));
+const _useOps_1 = __importDefault(__webpack_require__(/*! ./_useOps */ "./src/_useOps.tsx"));
 const App = () => {
     const { recentTenOps, sendOp } = _useOps_1.default();
     return (React.createElement("div", { className: "App" },
@@ -12507,25 +12551,53 @@ exports.default = App;
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(/*! react */ "react");
-const socketIOclient = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+const React = __importStar(__webpack_require__(/*! react */ "react"));
+const socketIOclient = __importStar(__webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js"));
+const axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
 const useOps = () => {
     const [recentTenOps, setRecent] = React.useState([]);
     let socketRef;
     React.useEffect(() => {
         socketRef = socketIOclient.connect("http://localhost:8080/");
         socketRef.on("operation", (operation) => {
-            const newOps = [operation, ...recentTenOps];
-            newOps.pop();
-            setRecent(newOps);
+            console.log(`Incoming processed: ${operation}`);
+            console.log(`Current display state: ${recentTenOps}`);
+            const newOps = recentTenOps.length >= 10 ? [...recentTenOps.slice(0, recentTenOps.length - 1), operation] : [...recentTenOps, operation];
+            console.log(`New state: ${newOps}`);
+            return setRecent(newOps);
         });
         return () => {
             socketRef.disconnect();
         };
     }, []);
-    const sendOp = (operation) => {
-        socketRef.emit("operation", { operation });
+    const sendOp = (operations) => {
+        // POST TO BACKEND HERE, BACKEND EMITS
+        axios_1.default.post(`/operation`, { operations })
+            .then((res) => { console.log('success'); })
+            .catch((err) => console.log(err));
     };
     return { recentTenOps, sendOp };
 };
@@ -12543,12 +12615,29 @@ exports.default = useOps;
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(/*! react */ "react");
-const axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+const React = __importStar(__webpack_require__(/*! react */ "react"));
 const Calculator = (props) => {
     const [operations, setOperations] = React.useState([]);
-    const [result, setResult] = React.useState(null);
     function updateOps(type) {
         if (type === "CA") {
             // CLEAR ALL
@@ -12562,10 +12651,7 @@ const Calculator = (props) => {
         }
         else if (type === "=") {
             // REQ TO BACKEND FOR CALCULATION
-            axios_1.default
-                .post(`/operation`, { operations: operations })
-                .then((res) => setResult(res))
-                .catch((err) => console.log(err));
+            props.sendOp(operations);
         }
         else {
             return setOperations([...operations, type]); // ADDING TO CALCULATION STACK
@@ -12573,9 +12659,7 @@ const Calculator = (props) => {
     }
     return (React.createElement("div", { className: "wrapper" },
         React.createElement("div", null,
-            React.createElement("span", null, operations.map((op) => op)),
-            React.createElement("span", null, " = "),
-            React.createElement("span", null, result)),
+            React.createElement("span", null, operations.map((op) => op))),
         React.createElement("div", { className: "calculator" },
             React.createElement("div", null,
                 React.createElement("button", { onClick: () => updateOps("0") }, "0"),
@@ -12616,8 +12700,27 @@ exports.default = Calculator;
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(/*! react */ "react");
+const React = __importStar(__webpack_require__(/*! react */ "react"));
 const Header = () => (React.createElement("header", null,
     React.createElement("h2", null, "Welcome to Calculate Stuff"),
     React.createElement("p", null, "This is the premier site for calculating your stuff and seeing the most recent 10 calculations.")));
@@ -12635,13 +12738,30 @@ exports.default = Header;
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(/*! react */ "react");
-const ENDPOINT = "http://localhost:8080/";
+const React = __importStar(__webpack_require__(/*! react */ "react"));
 const OperationsIndex = (props) => {
     // do an axios call to get the operations and render
-    const [display, setDisplay] = React.useState([]);
-    return (React.createElement("div", null, "results here"));
+    return (React.createElement("div", null, props.recentTenOps.map(op => React.createElement("p", null, op))));
 };
 exports.default = OperationsIndex;
 // React.useEffect(() => {
