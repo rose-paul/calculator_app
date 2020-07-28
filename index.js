@@ -8,6 +8,7 @@ const { calculate } = require("./calculator.js");
 require("dotenv").config();
 
 app.use(express.static(__dirname));
+// app.use('/', express.static('src'));
 
 // TO PARSE REQ BODY FROM FRONTEND
 var bodyParser = require("body-parser");
@@ -27,14 +28,19 @@ app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "index.html"));
 });
 /* post operation to db */
+let cache;
 app.post("/operation", (req, res) => {
   const result = calculate(req.body.operations); // pass to calculate function
   const newValue = [req.body.operations.join(" ") + " = " + result]; // construct new result for SQL insert
   const text = `INSERT INTO entries (entry) VALUES ($1)`;
   client.query(text, newValue) // insert then emit to sockets
   .then( result => {
+    console.log('success')
     res.send(newValue)
-    io.emit("operation", newValue)
+    cache.pop();
+    cache.unshift(newValue[0])
+    console.log(cache)
+    io.emit("operation", cache)
   })
   .catch( err => console.log(err.stack) )
 })
@@ -43,6 +49,7 @@ app.get("/recent", (req, res) => {
   client.query('SELECT * FROM entries ORDER BY created_at DESC LIMIT 10')
   .then(result => {
       res.send(result.rows.map(row => row.entry));
+      cache = result.rows.map(row => row.entry);
     })
     .catch(err => res.status(404).json(err));
 })

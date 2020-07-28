@@ -12581,15 +12581,15 @@ const useOps = () => {
     const [recentTenOps, setRecent] = React.useState([]);
     let socketRef;
     React.useEffect(() => {
-        axios_1.default.get('/recent').then(result => setRecent(result.data)).catch(err => console.log(err));
-        socketRef = socketIOclient.connect("http://localhost:8080/");
-        socketRef.on("operation", (operation) => {
-            console.log(`Incoming processed: ${operation}`);
-            console.log(`Current display state: ${recentTenOps}`);
-            const newOps = recentTenOps.length >= 10 ? [...recentTenOps.slice(0, recentTenOps.length - 1), operation] : [...recentTenOps, operation];
-            console.log(`New state: ${newOps}`);
-            return setRecent(newOps);
-        });
+        axios_1.default.get('/recent').then(result => {
+            setRecent(result.data);
+            socketRef = socketIOclient.connect("http://localhost:8080/");
+            socketRef.on("operation", (operations) => {
+                //   const newOps = [...recentTenOps.slice(0, recentTenOps.length - 1), operation];
+                console.log(operations);
+                return setRecent(operations);
+            });
+        }).catch(err => console.log(err));
         return () => {
             socketRef.disconnect();
         };
