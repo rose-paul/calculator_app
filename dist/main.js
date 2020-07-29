@@ -12583,7 +12583,7 @@ const useOps = () => {
     React.useEffect(() => {
         axios_1.default.get('/recent').then(result => {
             setRecent(result.data);
-            socketRef = socketIOclient.connect("http://localhost:8080/");
+            socketRef = socketIOclient.connect();
             socketRef.on("operation", (operations) => {
                 return setRecent(operations);
             });

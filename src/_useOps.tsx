@@ -11,9 +11,7 @@ const useOps = () => {
     React.useEffect(() => {
         axios.get('/recent').then(result => { 
             setRecent(result.data)
-            socketRef = socketIOclient.connect(
-              "http://localhost:8080/"
-              );
+            socketRef = socketIOclient.connect();
             socketRef.on("operation", (operations: string[]) => {
               return setRecent(operations);
           })
