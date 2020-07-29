@@ -2,8 +2,10 @@ import * as React from "react";
 import * as socketIOclient from "socket.io-client";
 import axios from 'axios';
 
-const useOps = () : any => {
+const useOps = () => {
+
     const [recentTenOps, setRecent] = React.useState([]);
+    
     let socketRef: any;
 
     React.useEffect(() => {
@@ -13,8 +15,6 @@ const useOps = () : any => {
               "http://localhost:8080/"
               );
             socketRef.on("operation", (operations: string[]) => {
-            //   const newOps = [...recentTenOps.slice(0, recentTenOps.length - 1), operation];
-            console.log(operations)
               return setRecent(operations);
           })
         }).catch(err => console.log(err))
@@ -27,7 +27,7 @@ const useOps = () : any => {
     const sendOp = (operations: string[]) => {
         // POST TO BACKEND HERE, BACKEND EMITS
         axios.post(`/operation`, { operations })
-        .then((res) => { console.log('success')})
+        .then((res) => { return })
         .catch((err) => console.log(err));
         
     }

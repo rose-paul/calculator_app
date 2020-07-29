@@ -12585,8 +12585,6 @@ const useOps = () => {
             setRecent(result.data);
             socketRef = socketIOclient.connect("http://localhost:8080/");
             socketRef.on("operation", (operations) => {
-                //   const newOps = [...recentTenOps.slice(0, recentTenOps.length - 1), operation];
-                console.log(operations);
                 return setRecent(operations);
             });
         }).catch(err => console.log(err));
@@ -12597,7 +12595,7 @@ const useOps = () => {
     const sendOp = (operations) => {
         // POST TO BACKEND HERE, BACKEND EMITS
         axios_1.default.post(`/operation`, { operations })
-            .then((res) => { console.log('success'); })
+            .then((res) => { return; })
             .catch((err) => console.log(err));
     };
     return { recentTenOps, sendOp };
@@ -12761,7 +12759,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(__webpack_require__(/*! react */ "react"));
 const OperationsIndex = (props) => {
-    // do an axios call to get the operations and render
     return (React.createElement("div", null, props.recentTenOps.map(op => React.createElement("p", null, op))));
 };
 exports.default = OperationsIndex;
